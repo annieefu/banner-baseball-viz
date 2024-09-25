@@ -1,13 +1,27 @@
-import adapter from '@sveltejs/adapter-auto';
-
 /** @type {import('@sveltejs/kit').Config} */
+import preprocess from 'svelte-preprocess';
+import adapter from '@sveltejs/adapter-static';
+import autoprefixer from 'autoprefixer';
+
+const CWD = process.cwd();
+const loc = CWD.split('/');
+const dir = loc[loc.length - 1]; // current dir
+const split = dir.split('-');
+const s3link = `https://tbimedia.s3.us-east-1.amazonaws.com/bistudios/_00/dev_edit/graphics/${split[0]}/${split[1]}/${dir}`;
+
 const config = {
 	kit: {
-		// adapter-auto only supports some environments, see https://kit.svelte.dev/docs/adapter-auto for a list.
-		// If your environment is not supported, or you settled on a specific environment, switch out the adapter.
-		// See https://kit.svelte.dev/docs/adapters for more information about adapters.
-		adapter: adapter()
-	}
+		// bake final output into static pages, using defaults
+		adapter: adapter(),
+		// handle linking to assets on s3
+		paths: {
+			assets: s3link
+		}
+	},
+	// let svelte take care of autoprefixing styles
+	preprocess: preprocess({
+		postcss: { plugins: [autoprefixer()] }
+	})
 };
 
 export default config;

@@ -100,6 +100,10 @@
 		isHovered = false;
         hoveredArc = null;
 	}
+    function capitalizeFirstLetter(str) {
+    if (!str) return str; // Return if the string is empty
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
 
 </script>
@@ -134,7 +138,7 @@
             stroke={isHovered 
                 ? (hoveredArc === arc ? 'rgb(255, 64, 25)' : 'lightgray') 
                 : 'rgb(255, 64, 25)'}
-            stroke-width={2.2}
+            stroke-width={2.4}
             fill="none"
             on:mouseover={(e) => mouseOver(e, arc)}
             on:mouseleave={(e) => mouseLeave(e, arc)}
@@ -160,12 +164,27 @@
     </g>
     
 </svg>
-{#if isHovered}
-<div style="top: {y}px; left: {x}px;" class="tooltip">Tooltip</div>
+{#if isHovered && hoveredArc}
+<div style="top: {y}px; left: {x}px;" class="tooltip">
+    <span><strong>{capitalizeFirstLetter(hoveredArc.player.split(', ')[1]) + ' ' +capitalizeFirstLetter(hoveredArc.player.split(', ')[0]) }</strong></span>
+    <hr>
+    <span><strong>Distance</strong> {hoveredArc.distance_feet} feet<br/></span>
+    <span><strong>Date </strong>{hoveredArc.date}<br/></span>
+    
+    <span><strong>Exit velocity</strong> {hoveredArc.exit_velocity_mph} mph<br/></span>
+    <span><strong>Launch angle </strong>{hoveredArc.launch_angle} deg<br/></span>
+
+</div>
 {/if}
 
 </div>
 <style>
+hr {
+    border: none; /* Remove default border */
+    height: 1px; /* Set the height of the line */
+    background-color: rgb(217, 217, 217);; /* Set the color of the line */
+    margin: 10px 0px; /* Optional: add some vertical spacing */
+}
 .run-arc:hover{
     cursor: pointer;
     stroke-width: 7px;
@@ -182,14 +201,33 @@
 }
 
 .tooltip {
-		border: 1px solid #ddd;
+        border: 0.15rem solid rgb(255, 64, 25);
 		background: white;
-		border-radius: 25px;
+		border-radius: 15px;
 		padding: 15px;
 		position: absolute;
-        width:200px;
-        height:150px;
+        width:auto;
+        min-width: 200px;
+        height: auto;
+        font-family: GT-Standard;
+        display: flex;
+        flex-direction: column;
+        justify-items: space-between;
 	}
+
+    .tooltip span{
+        display: flex;
+        width: 100%;
+        justify-items: space-between;
+        text-align: left;
+    }
+
+.tooltip strong{
+    width: auto;
+    margin-right: auto;
+    text-align: left;
+    font-family: GT-Standard-Bold;
+}
 
     
 @font-face {

@@ -30,15 +30,16 @@
 <line x1={0} x2={0} y1={0} y2={yScale(240)} stroke="hsla(212, 10%, 53%, 1)" />
 
 	{#each yTicks as tick, index}
-    <g class='tick' transform="translate(15, -{yScale(tick)})">
+    <g class='tick' transform="translate(0, -{yScale(tick)})">
 
 			<!-- X-Axis Ticks -->
-      <line x1={0} x2={5} y1={0} y2={0} stroke="hsla(212, 10%, 53%, 1)" />
+      <!-- <line x1={0} x2={20} y1={0} y2={0} stroke="hsla(212, 10%, 53%, 1)" /> -->
 
 			<!-- X-Axis Tick Labels -->
       <text 
 				y={5} 
-				dy={9} 
+				dy={9}
+                x={15} 
 				fill="currentColor"
 				text-anchor="middle" 
 				dominant-baseline="middle">
@@ -73,5 +74,6 @@
 text {
  font-family: GT-Standard;
  font-size: 1.1rem;
+ text-align: left;
 }
 </style>

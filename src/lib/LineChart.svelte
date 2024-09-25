@@ -14,6 +14,7 @@
     runs = runs.filter((runs) => runs.eutaw == 'yes')
 
     let isHovered = false;
+    let hoveredArc = null;
     let x;
     let y;
 
@@ -85,9 +86,9 @@
     // const line = d3.line()
     //     .x(d => xScale(new Date(d.)))
 
-	function mouseOver(event) {
-		isHovered = true;
-        console.log(event)
+	function mouseOver(e, arc) {
+		isHovered = true; 
+        hoveredArc = arc;
 		x = event.pageX + 5;
 		y = event.pageY + 5;
 	}
@@ -97,6 +98,7 @@
 	}
 	function mouseLeave() {
 		isHovered = false;
+        hoveredArc = null;
 	}
 
 
@@ -126,12 +128,17 @@
 				d={line(data)}/> -->
         {#each arcs as arc, i}
             <path
+            class="run-arc"
             key={i}
             d={arc.d}
-            stroke='rgb(255, 64, 25)'
-            stroke-width={2}
+            stroke={isHovered 
+                ? (hoveredArc === arc ? 'rgb(255, 64, 25)' : 'lightgray') 
+                : 'rgb(255, 64, 25)'}
+            stroke-width={2.2}
             fill="none"
-            on:mouseover={() => console.log(arc)}
+            on:mouseover={(e) => mouseOver(e, arc)}
+            on:mouseleave={(e) => mouseLeave(e, arc)}
+            on:mousemove={(e) => {mouseMove(e, arc)}}
         />
 
             <!-- <path
@@ -150,14 +157,25 @@
 	</g>
     <g>
 
-        {#if isHovered}
-        <div style="top: {y}px; left: {x}px;" class="tooltip">Tooltip</div>
-        {/if}
     </g>
+    
 </svg>
+{#if isHovered}
+<div style="top: {y}px; left: {x}px;" class="tooltip">Tooltip</div>
+{/if}
 
 </div>
 <style>
+.run-arc:hover{
+    cursor: pointer;
+    stroke-width: 7px;
+    z-index:99;
+}
+
+.run-arc{
+    z-index: 5;
+}
+
 .arc-wrapper{
     width: 70%;
     margin: auto;
@@ -165,11 +183,12 @@
 
 .tooltip {
 		border: 1px solid #ddd;
-		box-shadow: 1px 1px 1px #ddd;
-		background: red;
-		border-radius: 4px;
-		padding: 4px;
+		background: white;
+		border-radius: 25px;
+		padding: 15px;
 		position: absolute;
+        width:200px;
+        height:150px;
 	}
 
     

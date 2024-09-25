@@ -1,6 +1,6 @@
 <script>
-	// Receive x-scale, height and margins as props.
-	export let xScale;
+	// Receive y-scale, height and margins as props.
+	export let yScale;
 	export let height;
 	export let margin;
 
@@ -10,11 +10,11 @@
 	$: console.log(innerHeight)
 	// Determine ticks based on x-scale.
 	// Try changing this number to haver e.g. fewer ticks.
-	$: xTicks = xScale.ticks(10); 
+	$: yTicks = yScale.ticks(5); 
     
 </script>
 
-<g class="x-axis" transform="translate({0}, {height - margin.bottom})">
+<g class="y-axis" transform="translate({0}, {height - margin.bottom})">
 
 		<!-- <g class='tick' transform="translate(5, 0)">
 
@@ -27,13 +27,13 @@
 			Home plate
 		</text>
 </g> -->
-<line x1={0} x2={xScale(462)} y1={0} y2={0} stroke="hsla(212, 10%, 53%, 1)" />
+<line x1={0} x2={0} y1={0} y2={yScale(240)} stroke="hsla(212, 10%, 53%, 1)" />
 
-	{#each xTicks as tick, index}
-    <g class='tick' transform="translate({xScale(tick)}, 0)">
+	{#each yTicks as tick, index}
+    <g class='tick' transform="translate(15, -{yScale(tick)})">
 
 			<!-- X-Axis Ticks -->
-      <line x1={0} x2={0} y1={0} y2={3} stroke="hsla(212, 10%, 53%, 1)" />
+      <line x1={0} x2={5} y1={0} y2={0} stroke="hsla(212, 10%, 53%, 1)" />
 
 			<!-- X-Axis Tick Labels -->
       <text 

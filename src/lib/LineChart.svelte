@@ -45,7 +45,7 @@
 
     $: margin = { 
             top: 20,
-            right: 5,
+            right: 15,
             bottom: 35,
             left: 40	
         };
@@ -100,7 +100,7 @@
     // Declare the x (horizontal position) scale.
     $: xScale = d3.scaleLinear()
         // .domain(d3.extent(runs, d => parseInt(d.distance_feet)))
-        .domain([240, 475]) 
+        .domain([250, 500]) 
         .range([margin.left, width - margin.right]);
 
         
@@ -150,6 +150,7 @@ function formatDate(dateStr) {
     <p>Looking at <strong>60</strong> of the farthest home runs hit in Camden Yards since 2015, dozens of them have cleared the necessary distance to reach the warehouse. But in order to actually 
         hit the structure, a perfect storm of factors must be in place, including direction of hit and the player's leading arm. </p>
 
+        <!-- <span>*Stadium ratios may appear distorted to convey realistic run trajectories.</span> -->
 <!-- TODO: ADD THIS FILTER BUTTON -->
 <!-- <span class="filter-button">Orioles only</span> -->
     
@@ -357,7 +358,7 @@ hr {
 }
 
 .arc-wrapper{
-    width: 98%;
+    width: 90%;
     margin: auto;
 }
 

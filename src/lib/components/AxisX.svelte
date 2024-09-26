@@ -31,16 +31,16 @@ import { rgb } from "d3";
   </defs>
 
 <!-- SECTION FOR FIELD DIMENSIONS -->
-<line x1={xScale(318)} x2={xScale(318+106)} y1={height - yScale(21)} y2={height - yScale(21)} stroke="rgb(204, 194, 179)" stroke-width={4}/>
-<rect x={xScale(318)} y={height-yScale(21)} height={yScale(22)-margin.bottom} width={xScale(424)- xScale(318)} fill='url(#patt1)'/>
+<line x1={xScale(363.66)} x2={xScale(363.66+106)} y1={height - yScale(21)} y2={height - yScale(21)} stroke="rgb(204, 194, 179)" stroke-width={4}/>
+<rect x={xScale(363.66)} y={height-yScale(21)} height={yScale(22)-margin.bottom} width={xScale(424+45.66)- xScale(363.66)} fill='url(#patt1)'/>
 <!-- <line x1={xScale(318)} x2={xScale(318)} y1={height-margin.bottom} y2={height - yScale(21)} stroke="rgb(204, 194, 179)" stroke-width={4}/> -->
 
-<text class='axis-eutaw' x={innerWidth < 650? xScale(330) : xScale(350)} y={height-yScale(30)}  fill="rgb(85,85,85)"> {#if innerWidth > 600}Eutaw Street{:else if innerWidth <600 && innerWidth > 450}Eutaw St{:else} Eutaw{/if}</text>
+<text class='axis-eutaw' text-anchor='middle' x={innerWidth < 970? (innerWidth < 780? xScale(340): xScale(345) ) : xScale(350.5)} y={height-yScale(10)}  fill="rgb(85,85,85)"> {#if innerWidth > 1200}Eutaw Street →{:else if innerWidth <1200 && innerWidth > 570}Eutaw St →{:else} Eutaw{/if}</text>
 
 <!-- The warehouse rect -->
-<rect x={xScale(424)} y={height-yScale(120)} height={yScale(120)-margin.bottom} width={xScale(475)- xScale(424)} fill={rgb(161, 98, 71)}/>
-<polygon points="{xScale(449.5)} {height-yScale(135)}, {xScale(424)} {height-yScale(120)}, {xScale(475)} {height-yScale(120)}" fill={rgb(161, 98, 71)}/>
-<text class='axis-eutaw' x={xScale(449.5)} y={height-yScale(140)} text-anchor='middle' fill="rgb(85,85,85)">{#if innerWidth > 600}The warehouse{:else}Warehouse{/if}</text>
+<rect x={xScale(424+45.66)} y={height-yScale(120)} height={yScale(120)-margin.bottom} width={xScale(475+45.66)- xScale(424+45.66)} fill={rgb(161, 98, 71)}/>
+<polygon points="{xScale(449.5+45.66)} {height-yScale(135)}, {xScale(424+45.66)} {height-yScale(120)}, {xScale(475+45.66)} {height-yScale(120)}" fill={rgb(161, 98, 71)}/>
+<text class='axis-eutaw' x={xScale(449.5+45.66)} y={height-yScale(140)} text-anchor='middle' fill="rgb(85,85,85)">{#if innerWidth > 600}The warehouse{:else}Warehouse{/if}</text>
 
 
 <g class="x-axis" transform="translate({0}, {height - margin.bottom})">
@@ -57,7 +57,7 @@ import { rgb } from "d3";
 		</text>
 </g> -->
 
-<line x1={0} x2={xScale(318)} y1={0} y2={0} stroke="rgb(0, 191, 54)" stroke-width={4}/>
+<line x1={0} x2={xScale(363.66)} y1={0} y2={0} stroke="rgb(0, 191, 54)" stroke-width={4}/>
 
 
 	{#each xTicks as tick, index}

@@ -6,6 +6,21 @@
 	import AxisX from '$lib/components/AxisX.svelte';
     import AxisY from '$lib/components/AxisY.svelte';
 
+    import BOS from '$lib/logos/BOS.svelte';
+    import BAL from '$lib/logos/BAL.svelte';
+    import LAD from '../lib/logos/LAD.svelte';
+    import NYY from '../lib/logos/NYY.svelte';
+    import TEX from '../lib/logos/TEX.svelte';
+    import MIA from '$lib/logos/MIA.svelte';
+    import CLE from '$lib/logos/CLE.svelte';
+    import CHC from '$lib/logos/CHC.svelte';
+    import TB from '$lib/logos/TB.svelte';
+    import WSH from '$lib/logos/WSH.svelte';
+    import SEA from '$lib/logos/SEA.svelte';
+    import OAK from '$lib/logos/OAK.svelte';
+    import KC from '$lib/logos/KC.svelte';
+    import HOU from '$lib/logos/HOU.svelte';
+
     // Receive plot data as prop.
     export let runs;
     export let innerWidth;
@@ -144,16 +159,10 @@
             on:mousemove={(e) => {mouseMove(e, arc)}}
         />
 
-            <!-- <path
-                transform="translate({arc.distance},475)"
-                fill=none
-                stroke="rgb(112, 0, 255)"
-                stroke-width=1.5
-                d={arc.d}
-                on:mouseover={mouseOver}
-                on:mouseleave={mouseLeave}
-                on:mousemove={mouseMove}
-            /> -->
+
+        {/each}
+
+        {#each runs as run}
 
         {/each}
               
@@ -165,25 +174,83 @@
 </svg>
 {#if isHovered && hoveredArc}
 <div style="top: {y}px; left: {x}px;" class="tooltip">
-    <span><strong>{capitalizeFirstLetter(hoveredArc.player.split(', ')[1]) + ' ' +capitalizeFirstLetter(hoveredArc.player.split(', ')[0]) }</strong></span>
+    <span class="tooltip-header">
+    <span style="position: relative; width: auto; display: flex; flex-direction: row; flex-grow: 2; vertical-align: middle; margin-top: auto; margin-bottom: auto;"><strong>{capitalizeFirstLetter(hoveredArc.player.split(', ')[1]) + ' ' +capitalizeFirstLetter(hoveredArc.player.split(', ')[0]) }</strong></span>
+    <span class="tooltip-logo">
+        {#if hoveredArc.team == 'bos'}
+        <BOS size={45} />
+        {:else if hoveredArc.team == 'mia'}
+        <MIA size={45} />
+        {:else if hoveredArc.team == 'bal'}
+        <BAL size={45} />
+        {:else if hoveredArc.team == 'chc'}
+        <CHC size={45} />
+        {:else if hoveredArc.team == 'oak'}
+        <OAK size={45} />
+        {:else if hoveredArc.team == 'cle'}
+        <CLE size={45} />
+        {:else if hoveredArc.team == 'wsh'}
+        <WSH size={45} />
+        {:else if hoveredArc.team == 'kc'}
+        <KC size={45} />
+        {:else if hoveredArc.team == 'hou'}
+        <HOU size={45} />
+        {:else if hoveredArc.team == 'tb'}
+        <TB size={45} />
+        {:else if hoveredArc.team == 'nyy'}
+        <NYY size={45} />
+        {:else if hoveredArc.team == 'tex'}
+        <TEX size={45} />
+        {:else if hoveredArc.team == 'lad'}
+        <LAD size={45} />
+        {:else if hoveredArc.team == 'sea'}
+        <SEA size={45} />
+
+
+        {/if}
+
+    </span></span>
     <hr>
-    <span><strong>Distance</strong> {hoveredArc.distance_feet} feet<br/></span>
-    <span><strong>Date </strong>{hoveredArc.date}<br/></span>
+    <span class="tooltip-content"><strong>Distance</strong> {hoveredArc.distance_feet} feet<br/></span>
+    <span class="tooltip-content"><strong>Date </strong>{hoveredArc.date}<br/></span>
     
-    <span><strong>Exit velocity</strong> {hoveredArc.exit_velocity_mph} mph<br/></span>
-    <span><strong>Launch angle </strong>{hoveredArc.launch_angle} deg<br/></span>
+    <span class="tooltip-content"><strong>Exit velocity</strong> {hoveredArc.exit_velocity_mph} mph<br/></span>
+    <span class="tooltip-content"><strong>Launch angle </strong>{hoveredArc.launch_angle} deg<br/></span>
 
 </div>
 {/if}
 
 </div>
+
 <style>
+
+    .tooltip-header{
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-items: space-between;
+        justify-content: space-between;
+        font-family: 'GT-Standard-Bold';
+        vertical-align: middle;
+    }
+
+.tooltip-logo{
+    width: auto;
+    text-align: right;
+    flex-grow: 1;
+    /* position: absolute;
+    width: 100%;
+    top: 5;
+    left: 95; */
+}
+
 hr {
     border: none; /* Remove default border */
     height: 1px; /* Set the height of the line */
     background-color: rgb(217, 217, 217);; /* Set the color of the line */
     margin: 10px 0px; /* Optional: add some vertical spacing */
 }
+
 .run-arc:hover{
     cursor: pointer;
     stroke-width: 7px;
@@ -214,15 +281,16 @@ hr {
         justify-items: space-between;
 	}
 
-    .tooltip span{
+    .tooltip-content{
         display: flex;
         width: 100%;
         justify-items: space-between;
         text-align: left;
     }
 
-.tooltip strong{
-    width: auto;
+.tooltip-content strong{
+    /* width: auto; */
+    
     margin-right: auto;
     text-align: left;
     font-family: GT-Standard-Bold;

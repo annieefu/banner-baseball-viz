@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
-		"build": "vite build && cat build/index.html | clip",
+		"build": "vite build && cat build/index.html | pbcopy",
 		"preview": "vite preview",
 		"lint": "prettier --check .",
 		"format": "prettier --write ."

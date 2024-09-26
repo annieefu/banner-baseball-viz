@@ -186,6 +186,7 @@ function formatDate(dateStr) {
                 ? (hoveredArc === arc ? '8px' : '2.9px') 
                 : '2.9px'}
             fill="none"
+            on:mouseover={(e) => mouseOver(e, arc)}
             on:mousemove={(e) => mouseMove(e, arc)}
             on:mouseleave={(e) => mouseLeave(e, arc)}
             style="z-index: 1;"
@@ -200,6 +201,7 @@ function formatDate(dateStr) {
             : 'rgb(255, 64, 25)'}
             stroke-width="3px"
             fill="white"
+            on:mouseover={(e) => mouseOver(e, arc)}
             on:mousemove={(e) => {isHovered? (hoveredArc == arc ? '': mouseMove(e, arc)  ) : mouseMove(e, arc) }}
             on:mouseleave={(e) => {isHovered? (hoveredArc == arc ? '': mouseLeave(e, arc) ) : mouseLeave(e, arc)}}
             style="z-index: 1;"

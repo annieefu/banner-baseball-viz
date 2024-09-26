@@ -10,7 +10,12 @@
 	$: console.log(innerHeight)
 	// Determine ticks based on x-scale.
 	// Try changing this number to haver e.g. fewer ticks.
-	$: xTicks = xScale.ticks(10); 
+	let xTicks;
+	$: if (innerWidth > 600) {
+		xTicks = xScale.ticks(8)}
+		else if (innerWidth < 600) {
+		xTicks = xScale.ticks(5)
+		} 
     
 </script>
 
@@ -48,7 +53,11 @@
 	fill="currentColor"
 	text-anchor="middle" 
 	dominant-baseline="middle">
+	{#if innerWidth > 900}
 	Home plate (0 ft)
+	{:else}
+	HP (0 ft)
+	{/if}
 </text>
 	{:else}
       <text 

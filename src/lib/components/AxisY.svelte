@@ -7,7 +7,6 @@
 	export let innerHeight;
 	export let innerWidth;
 
-	$: console.log(innerHeight)
 	// Determine ticks based on x-scale.
 	// Try changing this number to haver e.g. fewer ticks.
 	$: yTicks = yScale.ticks(5); 

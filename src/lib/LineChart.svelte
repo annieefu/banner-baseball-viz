@@ -35,13 +35,23 @@
 
     $: width = innerWidth;
     $: height = 350;
-    
-        const margin = { 
+
+    $: margin = { 
+            top: 20,
+            right: 20,
+            bottom: 35,
+            left: 40	
+        };
+
+    $: if (innerWidth > 600){
+        margin = { 
             top: 20,
             right: 20,
             bottom: 35,
             left: 75	
-        };
+        }
+    }
+    
 
     const fn=d3.arc();
     let angle = Math.PI * 2;
@@ -131,6 +141,8 @@ function formatDate(dateStr) {
         }).format(date);
     }
 
+    $: console.log(hoveredArc)
+
 </script>
 
 
@@ -161,6 +173,7 @@ function formatDate(dateStr) {
 				stroke="steelblue"
 				d={line(data)}/> -->
         {#each arcs as arc, i}
+            {#if hoveredArc != arc}
             <path
             class="run-arc"
             key={i}
@@ -168,11 +181,13 @@ function formatDate(dateStr) {
             stroke={isHovered 
                 ? (hoveredArc === arc ? 'rgb(255, 64, 25)' : 'lightgray') 
                 : 'rgb(255, 64, 25)'}
-            stroke-width={2.9}
+            stroke-width={isHovered 
+                ? (hoveredArc === arc ? '8px' : '2.9px') 
+                : '2.9px'}
             fill="none"
             on:mouseover={(e) => mouseOver(e, arc)}
             on:mouseleave={(e) => mouseLeave(e, arc)}
-            on:mousemove={(e) => {mouseMove(e, arc)}}
+            style="z-index: 1;"
         />
             <circle
             class="run-ball"
@@ -186,40 +201,64 @@ function formatDate(dateStr) {
             fill="white"
             on:mouseover={(e) => mouseOver(e, arc)}
             on:mouseleave={(e) => mouseLeave(e, arc)}
-            on:mousemove={(e) => {mouseMove(e, arc)}}
+            style="z-index: 1;"
             />
 
-            {/each}
+            {:else if isHovered && hoveredArc === arc}
+            <g>
+                <path
+                    class="run-arc"
+                    d={hoveredArc.d}
+                    stroke='rgb(255, 64, 25)'
+                    stroke-width='8px'
+                    fill="none"
+                    style="z-index: 99;"
+                    on:mouseover={(e) => mouseOver(e, arc)}
+                    on:mouseleave={(e) => mouseLeave(e, arc)}
+                />
+                <circle
+                    class="run-ball"
+                    cx={xScale(hoveredArc.distance_feet) - margin.right}
+                    cy={yScale(260) - margin.top}
+                    r={8}
+                    stroke='rgb(255, 64, 25)'
+                    stroke-width='3px'
+                    fill='rgb(255, 64, 25)'
+                    style="z-index: 99;"
+                    on:mouseover={(e) => mouseOver(e, arc)}
+                    on:mouseleave={(e) => mouseLeave(e, arc)}
+                />
+            </g>
+            {/if}
 
+
+            {/each}
                 
               
-	</g>
-    <g>
-
-    {#if isHovered && hoveredArc}
-    <path
+    </g>
+    <!-- <path
     class="run-arc"
     d={hoveredArc.d}
     stroke={'rgb(255, 64, 25)' }
     stroke-width={2.6}
     fill="none"
+    on:mouseover={(e) => mouseOver(e, arc)}
+    on:mouseleave={(e) => mouseLeave(e, arc)}
 />
     <circle
-    class="run-ball"
+    class="run-ball-tooltip"
     cx={xScale(hoveredArc.distance_feet)-margin.right}
     cy={yScale(260) - margin.top}
     r={8}
     stroke={'rgb(255, 64, 25)'}
     stroke-width="2px"
     fill="rgb(255, 64, 25)"
-    />
+    /> -->
 
-    {/if}
-    </g>
     
 </svg>
 {#if isHovered && hoveredArc}
-<div style="top: {y}px; left: {x}px;" class="tooltip">
+<div style="top: {y}px; left: {x > innerWidth/2 ? x-200  : x }px" class="tooltip">
     <span class="tooltip-header">
     <span style="position: relative; width: auto; display: flex; flex-direction: row; flex-grow: 2; vertical-align: middle; margin-top: auto; margin-bottom: auto;"><strong>{capitalizeFirstLetter(hoveredArc.player.split(', ')[1]) + ' ' +capitalizeFirstLetter(hoveredArc.player.split(', ')[0]) }</strong></span>
     <span class="tooltip-logo">
@@ -290,12 +329,19 @@ function formatDate(dateStr) {
     top: 5;
     left: 95; */
 }
+.run-ball{
+    /* z-index: 99; */
+}
 
 .run-ball:hover{
     z-index:99;
-    stroke-width: 3px;
+    /* stroke-width: 3px; */
     cursor: pointer;
     /* fill:rgb(255, 64, 25); */
+}
+
+.run-ball-tooltip:hover{
+    cursor: pointer;
 }
 
 hr {
@@ -307,12 +353,12 @@ hr {
 
 .run-arc:hover{
     cursor: pointer;
-    stroke-width: 8px;
+    /* stroke-width: 8px; */
     z-index:99;
 }
 
 .run-arc{
-    z-index: 5;
+    /* z-index: 5; */
 }
 
 .arc-wrapper{
@@ -376,6 +422,14 @@ hr {
 @font-face {
     font-family: GT-Standard-Black-Italic;
     src: url($lib/fonts/GT-America-Standard-Black-Italic.ttf);
+}
+
+
+@media only screen and (min-width: 600px){
+    .arc-wrapper{
+    width: 100%;
+    margin: auto;
+}
 }
 
 </style>

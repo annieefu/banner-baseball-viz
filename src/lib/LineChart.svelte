@@ -147,7 +147,7 @@ function formatDate(dateStr) {
 
 <div class="arc-wrapper">
     <h2>The farthest home runs in (recent) Camden Yards history</h2>
-    <p>Looking at <strong>60</strong> of the farthest home runs hit in Camden Yards since 2015, dozens have reached Eutaw Street, just short of hitting the warehouse. But in order to actually do so, a perfect storm of factors must be in place, including direction of hit and the player's leading arm. </p>
+    <p>Looking at <strong>60</strong> of the farthest home runs that landed in Eutaw Street since 2015, many fell just short of hitting the warehouse. In order to actually do so, a perfect storm of several additional factors must be in place, including direction of hit and the player's leading arm. </p>
 
         <span class='hover-instruction'>Hover or tap to view home run data.</span>
 

@@ -199,9 +199,9 @@ function formatDate(dateStr) {
             : 'rgb(255, 64, 25)'}
             stroke-width="3px"
             fill="white"
-            on:mouseover={(e) => mouseOver(e, arc)}
-            on:mousemove={(e) => mouseMove(e, arc)}
-            on:mouseleave={(e) => mouseLeave(e, arc)}
+            on:mouseover={(e) => {isHovered? (hoveredArc == arc ? '': mouseOver(e, arc) ) : mouseOver(e, arc) }}
+            on:mousemove={(e) => {isHovered? (hoveredArc == arc ? '': mouseMove(e, arc)  ) : mouseMove(e, arc) }}
+            on:mouseleave={(e) => {isHovered? (hoveredArc == arc ? '': mouseLeave(e, arc) ) : mouseLeave(e, arc)}}
             style="z-index: 1;"
             />
 
@@ -209,12 +209,14 @@ function formatDate(dateStr) {
                 
               
     </g>
-    <!-- <path
+    {#if  isHovered && hoveredArc}
+    <path
     class="run-arc"
     d={hoveredArc.d}
     stroke={'rgb(255, 64, 25)' }
     stroke-width={2.6}
     fill="none"
+    on:mouseover={(e) => mouseOver(e, arc)}
     on:mouseover={(e) => mouseOver(e, arc)}
     on:mouseleave={(e) => mouseLeave(e, arc)}
 />
@@ -226,9 +228,12 @@ function formatDate(dateStr) {
     stroke={'rgb(255, 64, 25)'}
     stroke-width="2px"
     fill="rgb(255, 64, 25)"
-    /> -->
+            on:mouseover={(e) => mouseOver(e, arc)}
+            on:mousemove={(e) => mouseMove(e, arc)}
+            on:mouseleave={(e) => mouseLeave(e, arc)}
+    />
 
-    
+    {/if}
 </svg>
 {#if isHovered && hoveredArc}
 <div style="top: {y}px; left: {x > innerWidth/2 ? x-200  : x }px" class="tooltip">

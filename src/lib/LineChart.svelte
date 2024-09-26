@@ -147,10 +147,10 @@ function formatDate(dateStr) {
 
 <div class="arc-wrapper">
     <h2>The farthest home runs in (recent) Camden Yards history</h2>
-    <p>Looking at <strong>60</strong> of the farthest home runs hit in Camden Yards since 2015, dozens of them have cleared the necessary distance to reach the warehouse. But in order to actually 
-        hit the structure, a perfect storm of factors must be in place, including direction of hit and the player's leading arm. </p>
+    <p>Looking at <strong>60</strong> of the farthest home runs hit in Camden Yards since 2015, dozens have reached Eutaw Street, just short of hitting the warehouse. But in order to actually do so, a perfect storm of factors must be in place, including direction of hit and the player's leading arm. </p>
 
-        <!-- <span>*Stadium ratios may appear distorted to convey realistic run trajectories.</span> -->
+        <span class='hover-instruction'>Hover or tap to view home run data.</span>
+
 <!-- TODO: ADD THIS FILTER BUTTON -->
 <!-- <span class="filter-button">Orioles only</span> -->
     
@@ -174,7 +174,7 @@ function formatDate(dateStr) {
 				stroke="steelblue"
 				d={line(data)}/> -->
         {#each arcs as arc, i}
-            {#if isHovered && hoveredArc == arc}
+            {#if isHovered && hoveredArc != arc}
             <path
             class="run-arc"
             key={i}
@@ -183,7 +183,7 @@ function formatDate(dateStr) {
                 ? (hoveredArc === arc ? 'rgb(255, 64, 25)' : 'lightgray') 
                 : 'rgb(255, 64, 25)'}
             stroke-width={isHovered 
-                ? (hoveredArc === arc ? '8px' : '2.9px') 
+                ? (hoveredArc === arc ? '10px' : '2.9px') 
                 : '2.9px'}
             fill="none"
             on:mouseover={(e) => mouseOver(e, arc)}
@@ -319,6 +319,7 @@ function formatDate(dateStr) {
 </div>
 {/if}
 
+<span class="runs-credit">Note: Length of the pitch represented by the average distance of three pitch corners closest to the warehouse (400, 373 and 318 feet). </span><br/>
 <span class="runs-credit">Source: Statcast</span>
 </div>
 
@@ -349,6 +350,10 @@ function formatDate(dateStr) {
     .arc-wrapper p strong{
         font-familY: GT-Standard-Bold;
         color:rgb(255, 64, 25);
+    }
+
+    .hover-instruction{
+        font-family: GT-Standard-Italic;
     }
 
 .tooltip-logo{
@@ -457,6 +462,13 @@ hr {
 @font-face {
     font-family: GT-Standard-Medium-Italic;
     src: url($lib/fonts/GT-America-Standard-Medium-Italic.ttf);
+}
+
+
+
+@font-face {
+    font-family: GT-Standard-Italic;
+    src: url($lib/fonts/GT-America-Standard-Regular-Italic.ttf);
 }
 
 @font-face {

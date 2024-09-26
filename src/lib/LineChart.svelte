@@ -147,7 +147,8 @@ function formatDate(dateStr) {
 
 <div class="arc-wrapper">
     <h2>The farthest home runs in (recent) Camden Yards history</h2>
-    
+    <p>Looking at <strong>60</strong> of the farthest home runs hit in Camden Yards since 2015, dozens of them have cleared the necessary distance to reach the warehouse. But in order to actually 
+        hit the structure, a perfect storm of factors must be in place, including direction of hit and the player's leading arm. </p>
 
 <!-- TODO: ADD THIS FILTER BUTTON -->
 <!-- <span class="filter-button">Orioles only</span> -->
@@ -203,9 +204,6 @@ function formatDate(dateStr) {
             on:mouseleave={(e) => mouseLeave(e, arc)}
             style="z-index: 1;"
             />
-
-            
-
 
             {/each}
                 
@@ -277,9 +275,14 @@ function formatDate(dateStr) {
 </div>
 {/if}
 
+<span class="runs-credit">Source: Statcast</span>
 </div>
 
 <style>
+    .runs-credit{
+        font-family: GT-Standard-Thin;
+        font-size: .9rem;
+    }
 
     .arc-wrapper h2{
         font-family: 'GT-Standard-Bold'
@@ -293,6 +296,15 @@ function formatDate(dateStr) {
         justify-content: space-between;
         font-family: 'GT-Standard-Bold';
         vertical-align: middle;
+    }
+    .arc-wrapper p{
+        font-size: 1.1rem;
+        font-family: GT-Standard;
+    }
+
+    .arc-wrapper strong{
+        font-familY: GT-Standard-Bold;
+        color:rgb(255, 64, 25);
     }
 
 .tooltip-logo{
@@ -378,6 +390,12 @@ hr {
 @font-face {
     font-family: GT-Standard;
     src: url($lib/fonts/GT-America-Standard-Regular.ttf);
+}
+
+
+@font-face {
+    font-family: GT-Standard-Thin;
+    src: url($lib/fonts/GT-America-Standard-Thin.ttf);
 }
 
 @font-face {

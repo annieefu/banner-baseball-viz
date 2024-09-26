@@ -302,7 +302,7 @@ function formatDate(dateStr) {
         font-family: GT-Standard;
     }
 
-    .arc-wrapper strong{
+    .arc-wrapper p strong{
         font-familY: GT-Standard-Bold;
         color:rgb(255, 64, 25);
     }

@@ -30,21 +30,39 @@
 <line x1={0} x2={xScale(462)} y1={0} y2={0} stroke="hsla(212, 10%, 53%, 1)" />
 
 	{#each xTicks as tick, index}
+
+
     <g class='tick' transform="translate({xScale(tick)}, 0)">
 
 			<!-- X-Axis Ticks -->
       <line x1={0} x2={0} y1={0} y2={3} stroke="hsla(212, 10%, 53%, 1)" />
 
 			<!-- X-Axis Tick Labels -->
+
+
+	{#if index == 0}
+
+	<text 
+	y={15} 
+	dy={9} 
+	fill="currentColor"
+	text-anchor="middle" 
+	dominant-baseline="middle">
+	Home plate (0 ft)
+</text>
+	{:else}
       <text 
-				y={5} 
+				y={15} 
 				dy={9} 
 				fill="currentColor"
 				text-anchor="middle" 
 				dominant-baseline="middle">
 				{tick}
 			</text>
-    </g>
+
+	{/if}
+	</g>
+	
   {/each}
 </g>
 
@@ -72,6 +90,6 @@
 
 text {
  font-family: GT-Standard;
- font-size: 1.1rem;
+ font-size: 1.2rem;
 }
 </style>

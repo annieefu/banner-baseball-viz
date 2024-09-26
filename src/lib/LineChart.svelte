@@ -34,13 +34,13 @@
     let y;
 
     $: width = innerWidth;
-    $: height = innerHeight/1.5;
+    $: height = 350;
     
         const margin = { 
             top: 20,
             right: 20,
-            bottom: 25,
-            left: 50	
+            bottom: 35,
+            left: 75	
         };
 
     const fn=d3.arc();
@@ -71,8 +71,8 @@
                 ...run,
                 run_height,
                 d: [
-                    "M", start, height-25, // Move to starting point
-                    "A", rx, ry, 0, 0, 1, end, height-25 // Draw arc
+                    "M", start, height-35, // Move to starting point
+                    "A", rx, ry, 0, 0, 1, end, height-35 // Draw arc
                 ].join(" ")
             };
 
@@ -83,7 +83,7 @@
     // Declare the x (horizontal position) scale.
     $: xScale = d3.scaleLinear()
         // .domain(d3.extent(runs, d => parseInt(d.distance_feet)))
-        .domain([0, d3.max(runs, d => parseInt(d.distance_feet))]) 
+        .domain([300, d3.max(runs, d => parseInt(d.distance_feet))]) 
         .range([margin.left, width - margin.right]);
 
         
@@ -120,10 +120,26 @@
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function formatDate(dateStr) {
+        const [month, day, year] = dateStr.split('/').map(Number);
+        const date = new Date(year, month - 1, day); // Months are 0-indexed
+
+        return new Intl.DateTimeFormat('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+        }).format(date);
+    }
+
 </script>
 
 
 <div class="arc-wrapper">
+    <h2>The farthest home runs in (recent) Camden Yards history</h2>
+    
+
+<!-- TODO: ADD THIS FILTER BUTTON -->
+<!-- <span class="filter-button">Orioles only</span> -->
     
 <svg
   {width}
@@ -152,23 +168,53 @@
             stroke={isHovered 
                 ? (hoveredArc === arc ? 'rgb(255, 64, 25)' : 'lightgray') 
                 : 'rgb(255, 64, 25)'}
-            stroke-width={2.4}
+            stroke-width={2.9}
             fill="none"
             on:mouseover={(e) => mouseOver(e, arc)}
             on:mouseleave={(e) => mouseLeave(e, arc)}
             on:mousemove={(e) => {mouseMove(e, arc)}}
         />
+            <circle
+            class="run-ball"
+            cx={xScale(arc.distance_feet)-margin.right}
+            cy={yScale(260) - margin.top}
+            r={5}
+            stroke={isHovered 
+            ? (hoveredArc === arc ? 'rgb(255, 64, 25)' : 'lightgray') 
+            : 'rgb(255, 64, 25)'}
+            stroke-width="3px"
+            fill="white"
+            on:mouseover={(e) => mouseOver(e, arc)}
+            on:mouseleave={(e) => mouseLeave(e, arc)}
+            on:mousemove={(e) => {mouseMove(e, arc)}}
+            />
 
+            {/each}
 
-        {/each}
-
-        {#each runs as run}
-
-        {/each}
+                
               
 	</g>
     <g>
 
+    {#if isHovered && hoveredArc}
+    <path
+    class="run-arc"
+    d={hoveredArc.d}
+    stroke={'rgb(255, 64, 25)' }
+    stroke-width={2.6}
+    fill="none"
+/>
+    <circle
+    class="run-ball"
+    cx={xScale(hoveredArc.distance_feet)-margin.right}
+    cy={yScale(260) - margin.top}
+    r={8}
+    stroke={'rgb(255, 64, 25)'}
+    stroke-width="2px"
+    fill="rgb(255, 64, 25)"
+    />
+
+    {/if}
     </g>
     
 </svg>
@@ -205,14 +251,11 @@
         <LAD size={45} />
         {:else if hoveredArc.team == 'sea'}
         <SEA size={45} />
-
-
         {/if}
-
     </span></span>
     <hr>
     <span class="tooltip-content"><strong>Distance</strong> {hoveredArc.distance_feet} feet<br/></span>
-    <span class="tooltip-content"><strong>Date </strong>{hoveredArc.date}<br/></span>
+    <span class="tooltip-content"><strong>Date </strong>{formatDate(hoveredArc.date)}<br/></span>
     
     <span class="tooltip-content"><strong>Exit velocity</strong> {hoveredArc.exit_velocity_mph} mph<br/></span>
     <span class="tooltip-content"><strong>Launch angle </strong>{hoveredArc.launch_angle} deg<br/></span>
@@ -223,6 +266,10 @@
 </div>
 
 <style>
+
+    .arc-wrapper h2{
+        font-family: 'GT-Standard-Bold'
+    }
 
     .tooltip-header{
         display: flex;
@@ -244,6 +291,13 @@
     left: 95; */
 }
 
+.run-ball:hover{
+    z-index:99;
+    stroke-width: 3px;
+    cursor: pointer;
+    /* fill:rgb(255, 64, 25); */
+}
+
 hr {
     border: none; /* Remove default border */
     height: 1px; /* Set the height of the line */
@@ -253,7 +307,7 @@ hr {
 
 .run-arc:hover{
     cursor: pointer;
-    stroke-width: 7px;
+    stroke-width: 8px;
     z-index:99;
 }
 
@@ -262,7 +316,7 @@ hr {
 }
 
 .arc-wrapper{
-    width: 70%;
+    width: 80%;
     margin: auto;
 }
 

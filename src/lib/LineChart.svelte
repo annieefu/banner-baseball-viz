@@ -174,6 +174,38 @@ function formatDate(dateStr) {
 				stroke="steelblue"
 				d={line(data)}/> -->
         {#each arcs as arc, i}
+            {#if isHovered && hoveredArc == arc}
+            <path
+            class="run-arc"
+            key={i}
+            d={arc.d}
+            stroke={isHovered 
+                ? (hoveredArc === arc ? 'rgb(255, 64, 25)' : 'lightgray') 
+                : 'rgb(255, 64, 25)'}
+            stroke-width={isHovered 
+                ? (hoveredArc === arc ? '8px' : '2.9px') 
+                : '2.9px'}
+            fill="none"
+            on:mousemove={(e) => mouseMove(e, arc)}
+            on:mouseleave={(e) => mouseLeave(e, arc)}
+            style="z-index: 1;"
+        />
+            <circle
+            class="run-ball"
+            cx={xScale(arc.distance_feet)-margin.right}
+            cy={yScale(260) - margin.top}
+            r={5}
+            stroke={isHovered 
+            ? (hoveredArc === arc ? 'rgb(255, 64, 25)' : 'lightgray') 
+            : 'rgb(255, 64, 25)'}
+            stroke-width="3px"
+            fill="white"
+            on:mousemove={(e) => {isHovered? (hoveredArc == arc ? '': mouseMove(e, arc)  ) : mouseMove(e, arc) }}
+            on:mouseleave={(e) => {isHovered? (hoveredArc == arc ? '': mouseLeave(e, arc) ) : mouseLeave(e, arc)}}
+            style="z-index: 1;"
+            />
+
+            {:else}
             <path
             class="run-arc"
             key={i}
@@ -205,6 +237,10 @@ function formatDate(dateStr) {
             on:mouseleave={(e) => {isHovered? (hoveredArc == arc ? '': mouseLeave(e, arc) ) : mouseLeave(e, arc)}}
             style="z-index: 1;"
             />
+
+            {/if}
+
+           
 
             {/each}
                 

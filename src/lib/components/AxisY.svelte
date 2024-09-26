@@ -13,7 +13,7 @@
     
 </script>
 
-<g class="y-axis" transform="translate({0}, {height - margin.bottom})">
+<g class="y-axis" transform="translate({0}, {height})">
 
 		<!-- <g class='tick' transform="translate(5, 0)">
 
@@ -32,18 +32,31 @@
     <g class='tick' transform="translate(0, -{yScale(tick)})">
 
 			<!-- X-Axis Ticks -->
-      <!-- <line x1={0} x2={20} y1={0} y2={0} stroke="hsla(212, 10%, 53%, 1)" /> -->
+      <line x1={5} x2={20} y1={0} y2={0} stroke="hsla(212, 10%, 53%, 1)" />
 
 			<!-- X-Axis Tick Labels -->
+
+			{#if index != 5}
       <text 
 				y={5} 
 				dy={9}
-                x={15} 
+                x={4} 
 				fill="currentColor"
-				text-anchor="middle" 
+				text-anchor="right" 
 				dominant-baseline="middle">
 				{tick}
 			</text>
+			{:else}
+			<text 
+			y={5} 
+			dy={9}
+			x={4} 
+			fill="currentColor"
+			text-anchor="right" 
+			dominant-baseline="middle">
+			250 ft
+		</text>
+			{/if}
     </g>
   {/each}
 </g>

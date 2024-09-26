@@ -28,17 +28,24 @@
 
     runs = runs.filter((runs) => runs.eutaw == 'yes')
 
+    function sortByDate(data) {
+    return data.sort((a, b) => new Date(a.game_date) - new Date(b.game_date));
+}
+
+    // Sort the data
+    runs = sortByDate(runs);
+
     let isHovered = false;
     let hoveredArc = null;
     let x;
     let y;
 
     $: width = innerWidth;
-    $: height = 350;
+    $: height = 400;
 
     $: margin = { 
             top: 20,
-            right: 20,
+            right: 5,
             bottom: 35,
             left: 40	
         };
@@ -46,9 +53,9 @@
     $: if (innerWidth > 600){
         margin = { 
             top: 20,
-            right: 20,
+            right: 5,
             bottom: 35,
-            left: 75	
+            left: 95	
         }
     }
     
@@ -75,7 +82,7 @@
             const inflexion = height;
             // Calculate x and y radii for the arc
             const rx = (end - start) / 2; // Half the distance between start and end
-            const ry = yScale(run_height); // Use the calculated height
+            const ry = yScale(run_height)-margin.bottom - margin.top; // Use the calculated height
 
             return {
                 ...run,
@@ -93,7 +100,7 @@
     // Declare the x (horizontal position) scale.
     $: xScale = d3.scaleLinear()
         // .domain(d3.extent(runs, d => parseInt(d.distance_feet)))
-        .domain([300, d3.max(runs, d => parseInt(d.distance_feet))]) 
+        .domain([240, 475]) 
         .range([margin.left, width - margin.right]);
 
         
@@ -102,14 +109,6 @@
         .domain([0, 260]) 
         .range([margin.bottom, height - margin.top]);
 
-        // Declare the y (vertical position) scale.
-    // $: yScale = d3.scaleLinear()
-    //     .domain([0, d3.max(data, d => d.close)])
-    //     .rangeRound([height - margin.bottom, margin.top]);
-
-    // Declare the line generator.
-    // const line = d3.line()
-    //     .x(d => xScale(new Date(d.)))
 
 	function mouseOver(e, arc) {
 		isHovered = true; 
@@ -163,7 +162,7 @@ function formatDate(dateStr) {
 	<!-- Add the y-axis -->
 	
 	<!-- Add the x-axis -->
-	<AxisX {xScale} {height} {margin} {innerWidth} {innerHeight}/>
+	<AxisX {xScale} {yScale} {height} {margin} {innerWidth} {innerHeight}/>
 	<AxisY {yScale} {height} {margin} {innerWidth} {innerHeight}/>
 
 	<!-- Add a path for the line. -->
@@ -173,7 +172,6 @@ function formatDate(dateStr) {
 				stroke="steelblue"
 				d={line(data)}/> -->
         {#each arcs as arc, i}
-            {#if hoveredArc != arc}
             <path
             class="run-arc"
             key={i}
@@ -186,6 +184,7 @@ function formatDate(dateStr) {
                 : '2.9px'}
             fill="none"
             on:mouseover={(e) => mouseOver(e, arc)}
+            on:mousemove={(e) => mouseMove(e, arc)}
             on:mouseleave={(e) => mouseLeave(e, arc)}
             style="z-index: 1;"
         />
@@ -200,36 +199,12 @@ function formatDate(dateStr) {
             stroke-width="3px"
             fill="white"
             on:mouseover={(e) => mouseOver(e, arc)}
+            on:mousemove={(e) => mouseMove(e, arc)}
             on:mouseleave={(e) => mouseLeave(e, arc)}
             style="z-index: 1;"
             />
 
-            {:else if isHovered && hoveredArc === arc}
-            <g>
-                <path
-                    class="run-arc"
-                    d={hoveredArc.d}
-                    stroke='rgb(255, 64, 25)'
-                    stroke-width='8px'
-                    fill="none"
-                    style="z-index: 99;"
-                    on:mouseover={(e) => mouseOver(e, arc)}
-                    on:mouseleave={(e) => mouseLeave(e, arc)}
-                />
-                <circle
-                    class="run-ball"
-                    cx={xScale(hoveredArc.distance_feet) - margin.right}
-                    cy={yScale(260) - margin.top}
-                    r={8}
-                    stroke='rgb(255, 64, 25)'
-                    stroke-width='3px'
-                    fill='rgb(255, 64, 25)'
-                    style="z-index: 99;"
-                    on:mouseover={(e) => mouseOver(e, arc)}
-                    on:mouseleave={(e) => mouseLeave(e, arc)}
-                />
-            </g>
-            {/if}
+            
 
 
             {/each}
@@ -343,6 +318,9 @@ function formatDate(dateStr) {
 .run-ball-tooltip:hover{
     cursor: pointer;
 }
+.arc-wrapper svg{
+    overflow: visible;
+}
 
 hr {
     border: none; /* Remove default border */
@@ -362,7 +340,7 @@ hr {
 }
 
 .arc-wrapper{
-    width: 80%;
+    width: 98%;
     margin: auto;
 }
 
@@ -427,7 +405,7 @@ hr {
 
 @media only screen and (min-width: 600px){
     .arc-wrapper{
-    width: 100%;
+    width: 80%;
     margin: auto;
 }
 }
